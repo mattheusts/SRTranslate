@@ -1,0 +1,661 @@
+2
+00:00:02,019 --> 00:00:04,010
+and the importance of binary images,
+
+3
+00:00:04,010 --> 00:00:07,050
+let's take a look at performing our own simple thresholding.
+
+4
+00:00:07,050 --> 00:00:10,039
+First, we will load in a black and white image.
+
+5
+00:00:10,039 --> 00:00:15,079
+To do this, we'll type bw = cv2.imread,
+
+6
+00:00:15,079 --> 00:00:18,030
+and then we'll use detect
+
+7
+00:00:18,030 --> 00:00:19,069
+_
+
+8
+00:00:19,069 --> 00:00:20,079
+blob
+
+9
+00:00:20,079 --> 00:00:21,090
+.png,
+
+10
+00:00:21,090 --> 00:00:22,079
+and then,
+
+11
+00:00:22,079 --> 00:00:25,040
+we are going to pass in a value of 0 explicitly.
+
+12
+00:00:25,040 --> 00:00:27,020
+This will tell OpenCV to load it in
+
+13
+00:00:27,020 --> 00:00:29,040
+as a black and white image.
+
+14
+00:00:29,040 --> 00:00:32,009
+Next, let's get the height as well as the width
+
+15
+00:00:32,009 --> 00:00:35,069
+by typing height comma width from the image
+
+16
+00:00:35,069 --> 00:00:37,000
+= bw
+
+17
+00:00:37,000 --> 00:00:39,009
+.shape
+
+18
+00:00:39,009 --> 00:00:40,080
+0:2 to indicate we only want the
+
+19
+00:00:40,080 --> 00:00:43,090
+first two values from the shape.
+
+
+20
+00:00:43,090 --> 00:00:46,009
+Finally, let's go ahead and show this image
+
+21
+00:00:46,009 --> 00:00:49,069
+using cv2.imshow
+
+22
+00:00:49,069 --> 00:00:51,000
+Original
+
+23
+00:00:51,000 --> 00:00:53,000
+black white, end quote,
+
+24
+00:00:53,000 --> 00:00:55,009
+and then pass in the bw variable.
+
+25
+00:00:55,009 --> 00:00:56,009
+Now the goal is to ample
+
+26
+00:00:56,009 --> 00:00:58,029
+a straightforward thresholding method
+
+27
+00:00:58,029 --> 00:01:01,080
+to extract the objects from an image.
+
+28
+00:01:01,080 --> 00:01:03,080
+We can do that by assigning all the objects
+
+29
+00:01:03,080 --> 00:01:07,000
+a value of 1 and everything else a value of 0.
+
+30
+00:01:07,000 --> 00:01:09,059
+To begin, we will initialize our binary variable
+
+31
+00:01:09,059 --> 00:01:11,059
+by typing binary
+
+32
+00:01:11,059 --> 00:01:12,089
+=
+
+33
+00:01:12,089 --> 00:01:13,069
+np
+
+34
+00:01:13,069 --> 00:01:14,080
+.zeros
+
+35
+00:01:14,080 --> 00:01:18,059
+and then in parentheses we'll pass in, inside of brackets,
+
+36
+00:01:18,059 --> 00:01:22,029
+the height and width of our image,
+
+37
+00:01:22,029 --> 00:01:25,069
+and then, comma, we'll add the option of one.
+
+
+38
+00:01:25,069 --> 00:01:29,000
+That will indicate that it is a one channel binary image.
+
+39
+00:01:29,000 --> 00:01:31,040
+Next, we'll pass in the type,
+
+40
+00:01:31,040 --> 00:01:35,069
+unsigned int8.
+
+41
+00:01:35,069 --> 00:01:39,059
+Now, we can also start by setting a threshold.
+
+42
+00:01:39,059 --> 00:01:40,080
+This is somewhat of a guess,
+
+43
+00:01:40,080 --> 00:01:42,080
+but this will be the initial value that everything
+
+44
+00:01:42,080 --> 00:01:46,050
+in the original bw image is compared against.
+
+45
+00:01:46,050 --> 00:01:48,089
+Every pixel will be compared against this value.
+
+46
+00:01:48,089 --> 00:01:51,010
+Let's type our threshold equal to 85,
+
+47
+00:01:51,010 --> 00:01:53,010
+knowing that our
+
+48
+00:01:53,010 --> 00:01:55,029
+unsigned integer 8,
+
+49
+00:01:55,029 --> 00:01:56,089
+or our 8-bit image,
+
+50
+00:01:56,089 --> 00:01:59,000
+will have a maximum value of 255
+
+51
+00:01:59,000 --> 00:02:01,019
+and a minimum value of 0.
+
+
+52
+00:02:01,019 --> 00:02:04,069
+Next, we can start our simple for loop to do the threshold.
+
+53
+00:02:04,069 --> 00:02:06,000
+For
+
+54
+00:02:06,000 --> 00:02:08,009
+row in range
+
+55
+00:02:08,009 --> 00:02:11,020
+0 to height, or in other words,
+
+56
+00:02:11,020 --> 00:02:13,059
+looking at each row in our image,
+
+57
+00:02:13,059 --> 00:02:15,050
+and we know that there's a height number
+
+58
+00:02:15,050 --> 00:02:18,080
+of rows in our image because that's what defines the height.
+
+59
+00:02:18,080 --> 00:02:20,039
+We'll do our second for loop,
+
+60
+00:02:20,039 --> 00:02:21,089
+which is for
+
+61
+00:02:21,089 --> 00:02:22,080
+col in
+
+62
+00:02:22,080 --> 00:02:24,029
+range
+
+63
+00:02:24,029 --> 00:02:25,070
+0
+
+64
+00:02:25,070 --> 00:02:26,089
+comma
+
+65
+00:02:26,089 --> 00:02:28,059
+to width,
+
+66
+00:02:28,059 --> 00:02:31,059
+and the same way, this is the number of columns,
+
+67
+00:02:31,059 --> 00:02:33,080
+or pixels, within a single row,
+
+68
+00:02:33,080 --> 00:02:35,089
+defined by the width.
+
+
+69
+00:02:35,089 --> 00:02:38,050
+We will then do our comparison.
+
+70
+00:02:38,050 --> 00:02:41,070
+Essentially, we want to look at the black and white image
+
+71
+00:02:41,070 --> 00:02:44,059
+and see if the value of the black and white image
+
+72
+00:02:44,059 --> 00:02:46,070
+at that pixel location is greater than
+
+73
+00:02:46,070 --> 00:02:48,059
+or less than that threshold.
+
+74
+00:02:48,059 --> 00:02:53,020
+We can do this by typing if bw,
+
+75
+00:02:53,020 --> 00:02:55,000
+row in brackets,
+
+76
+00:02:55,000 --> 00:03:00,070
+and then col, in brackets, is greater than thresh.
+
+77
+00:03:00,070 --> 00:03:02,050
+Then we're going to set the binary value
+
+78
+00:03:02,050 --> 00:03:05,000
+to be a 1 instead of a 0.
+
+79
+00:03:05,000 --> 00:03:06,059
+Binary,
+
+80
+00:03:06,059 --> 00:03:09,020
+row, and then col,
+
+81
+00:03:09,020 --> 00:03:12,070
+and then I'm going to assign a value of 255.
+
+
+82
+00:03:12,070 --> 00:03:13,080
+Now I realize I just said
+
+83
+00:03:13,080 --> 00:03:17,059
+that a binary image is consisting of either 0s or 1s,
+
+84
+00:03:17,059 --> 00:03:19,080
+but in this case we want to display the image
+
+85
+00:03:19,080 --> 00:03:21,000
+in the user interface,
+
+86
+00:03:21,000 --> 00:03:23,080
+and because of OpenCV's GUI requirements,
+
+87
+00:03:23,080 --> 00:03:28,050
+we want to actually show a 255 or 0 value-based image.
+
+88
+00:03:28,050 --> 00:03:30,089
+That way, the binary image will appear white
+
+89
+00:03:30,089 --> 00:03:33,070
+where we actually want our objects.
+
+90
+00:03:33,070 --> 00:03:37,039
+Pressing Enter, then create our imshow using cv2
+
+91
+00:03:37,039 --> 00:03:39,050
+.imshow
+
+92
+00:03:39,050 --> 00:03:43,009
+and then we will type Slow Binary
+
+93
+00:03:43,009 --> 00:03:45,020
+comma
+
+94
+00:03:45,020 --> 00:03:48,050
+Binary. The reason I've called it a Slow Binary
+
+95
+00:03:48,050 --> 00:03:50,029
+is because this is a much slower method
+
+96
+00:03:50,029 --> 00:03:52,089
+than other ways that you can do in OpenCV,
+
+97
+00:03:52,089 --> 00:03:54,009
+but nonetheless, it shows how you can
+
+98
+00:03:54,009 --> 00:03:55,080
+iterate through the pixels.
+
+
+99
+00:03:55,080 --> 00:03:58,009
+At this point, we can type out cv2
+
+100
+00:03:58,009 --> 00:04:00,039
+.waitKey, passing in 0,
+
+101
+00:04:00,039 --> 00:04:02,020
+and cv2.
+
+102
+00:04:02,020 --> 00:04:03,070
+destroy
+
+103
+00:04:03,070 --> 00:04:04,050
+All
+
+104
+00:04:04,050 --> 00:04:05,080
+Windows.
+
+105
+00:04:05,080 --> 00:04:08,009
+Pressing Save, I can now go to the command line prompt.
+
+106
+00:04:08,009 --> 00:04:09,089
+Make sure that you are in the correct directory,
+
+107
+00:04:09,089 --> 00:04:12,029
+and then type python3
+
+108
+00:04:12,029 --> 00:04:13,020
+03_
+
+109
+00:04:13,020 --> 00:04:15,020
+02.py.
+
+110
+00:04:15,020 --> 00:04:16,089
+We can then see the two images.
+
+111
+00:04:16,089 --> 00:04:18,040
+The left hand side being the original
+
+112
+00:04:18,040 --> 00:04:20,000
+black and white image we loaded in,
+
+113
+00:04:20,000 --> 00:04:21,019
+and the right hand side being the result
+
+114
+00:04:21,019 --> 00:04:23,000
+of our binary segmentation.
+
+115
+00:04:23,000 --> 00:04:25,019
+We can notice easily that a couple of the items,
+
+116
+00:04:25,019 --> 00:04:27,079
+such as the long oval here,
+
+117
+00:04:27,079 --> 00:04:28,089
+did not appear in our threshold
+
+118
+00:04:28,089 --> 00:04:31,089
+due to all of its values being less than our 85.
+
+
+119
+00:04:31,089 --> 00:04:33,049
+Additionally, you notice that some objects
+
+120
+00:04:33,049 --> 00:04:36,059
+are cut off or truncated, such as this long bar here,
+
+121
+00:04:36,059 --> 00:04:38,049
+due to values of the gradient.
+
+122
+00:04:38,049 --> 00:04:40,000
+Depending on what we were trying to accomplish
+
+123
+00:04:40,000 --> 00:04:41,089
+by extracting objects out of this image,
+
+124
+00:04:41,089 --> 00:04:44,019
+we may adjust our threshold to either
+
+125
+00:04:44,019 --> 00:04:47,000
+compensate for more areas to include,
+
+126
+00:04:47,000 --> 00:04:49,029
+or even segment out more of the objects.
+
+127
+00:04:49,029 --> 00:04:50,070
+Return to the script editor.
+
+128
+00:04:50,070 --> 00:04:52,019
+Let's review another method
+
+129
+00:04:52,019 --> 00:04:53,089
+for getting a binary segmentation
+
+130
+00:04:53,089 --> 00:04:55,070
+out of a black and white image.
+
+131
+00:04:55,070 --> 00:04:57,049
+I mentioned that OpenCV has a built-in method
+
+132
+00:04:57,049 --> 00:05:00,000
+that is a lot faster than the double-nested loop above.
+
+133
+00:05:00,000 --> 00:05:02,059
+To use this, we can type ret
+
+134
+00:05:02,059 --> 00:05:04,000
+comma
+
+135
+00:05:04,000 --> 00:05:04,079
+thresh
+
+136
+00:05:04,079 --> 00:05:05,089
+=
+
+137
+00:05:05,089 --> 00:05:08,000
+cv2
+
+138
+00:05:08,000 --> 00:05:09,089
+threshold
+
+139
+00:05:09,089 --> 00:05:11,040
+and then we will pass in arguments,
+
+140
+00:05:11,040 --> 00:05:14,079
+starting with our black and white image bw,
+
+141
+00:05:14,079 --> 00:05:17,070
+followed by our threshold value of 85,
+
+142
+00:05:17,070 --> 00:05:20,010
+which we will use the variable name thresh for,
+
+143
+00:05:20,010 --> 00:05:23,019
+and then we need to pass in the maximum value of
+
+144
+00:05:23,019 --> 00:05:26,079
+the pixels that are in the black and white image,
+
+145
+00:05:26,079 --> 00:05:28,029
+which is 255,
+
+146
+00:05:28,029 --> 00:05:30,079
+and then we indicate the type of threshold to use.
+
+
+147
+00:05:30,079 --> 00:05:32,089
+In this case, we can use cv2
+
+148
+00:05:32,089 --> 00:05:34,029
+.THRESH
+
+149
+00:05:34,029 --> 00:05:36,040
+_BINARY.
+
+150
+00:05:36,040 --> 00:05:38,089
+I highly recommend taking a look at the OpenCV documentation
+
+151
+00:05:38,089 --> 00:05:42,049
+to understand the other types of thresholding available.
+
+152
+00:05:42,049 --> 00:05:47,000
+Next, let's show our image using cv2.imshow
+
+153
+00:05:47,000 --> 00:05:50,019
+and then we can type CV
+
+154
+00:05:50,019 --> 00:05:52,019
+Threshold
+
+155
+00:05:52,019 --> 00:05:53,040
+comma
+
+156
+00:05:53,040 --> 00:05:55,049
+and then put in our thresh value.
+
+157
+00:05:55,049 --> 00:05:57,049
+Let's save this, return to our console,
+
+158
+00:05:57,049 --> 00:05:59,059
+press Up once, and then press Enter,
+
+159
+00:05:59,059 --> 00:06:01,079
+and now we can see the identical thresholding
+
+160
+00:06:01,079 --> 00:06:04,059
+which performed using the OpenCV command.
+
+
+161
+00:06:04,059 --> 00:06:07,079
+While this may be a very simple form of object segmentation,
+
+162
+00:06:07,079 --> 00:06:10,089
+and it would fail under events such as uneven lighting,
+
+163
+00:06:10,089 --> 00:06:12,029
+it is still a crucial function
+
+164
+00:06:12,029 --> 00:06:15,000
+used in a wide variety of applications.
+
