@@ -2,6 +2,7 @@ from googletrans import Translator
 from googletrans import LANGUAGES
 import os
 
+
 class Colors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -12,10 +13,16 @@ class Colors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 translator = Translator(service_urls=[
         'translate.google.com',
         'translate.google.com.br'
     ])
+
+
+def codes_viwer():
+    for k,v in LANGUAGES.items():
+        print(f'{Colors.OKGREEN} Initials: {Colors.FAIL}{k}\t{Colors.OKGREEN}Language: {Colors.FAIL}{v} {Colors.ENDC}')
 
 
 def codes(code_lang:str):
@@ -27,8 +34,8 @@ def codes(code_lang:str):
 
 def translate(path:str, language:str):
 
-    if (not codes(language)):
-        print(Colors.FAIL + "")
+    if not codes(language):
+        print(Colors.FAIL + "Language \"" + language + "\" Unsupported language" + Colors.ENDC)
         return
 
     abspath = os.path.abspath(path)
@@ -72,6 +79,10 @@ def translate(path:str, language:str):
 
 
 def translate_file(path:str, language:str):
+
+    if not codes(language):
+        print(Colors.FAIL + "Language \"" + language + "\" Unsupported language" + Colors.ENDC)
+        return
 
     abspath = os.path.abspath(path)
 

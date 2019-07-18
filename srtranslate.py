@@ -1,6 +1,5 @@
 import argparse
-import googletrans
-from util.translate import translate, translate_file, Colors
+from util.translate import translate, translate_file, Colors, codes_viwer
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--dir', help='Directory where the files are located. (.srt)', type=str, required=False)
@@ -13,7 +12,7 @@ args = parser.parse_args()
 if __name__ == '__main__':
 
     if args.codes:
-        print(googletrans.LANGCODES)
+        codes_viwer()
     else:
         if args.dir == None and args.single == None:
             print(Colors.FAIL + 'No file or directory was passed' + Colors.ENDC)
