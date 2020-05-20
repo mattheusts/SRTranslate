@@ -1,43 +1,28 @@
 from googletrans import Translator
 from googletrans import LANGUAGES
+from src.colors import Colors
 import os
 
-
-class Colors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
-
 translator = Translator(service_urls=[
-        'translate.google.com',
-        'translate.google.com.br'
-    ])
+    'translate.google.com',
+    'translate.google.com.br'
+])
 
 
-def codes_viwer():
-    for k,v in LANGUAGES.items():
+def codes_viewer():
+    for k, v in LANGUAGES.items():
         print(f'{Colors.OKGREEN} Initials: {Colors.FAIL}{k}\t{Colors.OKGREEN}Language: {Colors.FAIL}{v} {Colors.ENDC}')
 
 
-def codes(code_lang:str):
+def codes(code_lang: str):
     for code, lang in LANGUAGES.items():
         if code == code_lang:
             return True
+    print(Colors.FAIL + "Language \"" + code_lang + "\" Unsupported language" + Colors.ENDC)
     return False
 
 
-def translate(path:str, language:str):
-
-    if not codes(language):
-        print(Colors.FAIL + "Language \"" + language + "\" Unsupported language" + Colors.ENDC)
-        return
-
+def translate(path: str, language: str):
     abspath = os.path.abspath(path)
 
     if not os.path.exists(abspath + '/' + 'translated_legends'):
@@ -45,7 +30,6 @@ def translate(path:str, language:str):
     fileslist = os.listdir(abspath)
     for files in fileslist:
         phrase = []
-        filename = ''
 
         if files == 'translated_legends':
             continue
@@ -59,31 +43,26 @@ def translate(path:str, language:str):
                         phrase.append(lines.rstrip())
                 file.close()
 
-            traducao = translator.translate(phrase, dest=language)
+            translation = translator.translate(phrase, dest=language)
 
             count = 0
             with open(abspath + '/' + 'translated_legends' + '/' + files, 'w') as save:
                 with open(abspath + '/' + files) as file:
                     for lines in file:
                         if lines[0].rstrip().isalpha():
-                            save.write(traducao[count].text + '\n')
+                            save.write(translation[count].text + '\n')
                             count += 1
                         else:
                             save.write(lines)
                     file.close()
                 save.close()
-            print(Colors.OKGREEN + 'The file {} was translated'.format(filename)+Colors.ENDC)
+            print(Colors.OKGREEN + 'The file {} was translated'.format(filename) + Colors.ENDC)
         else:
             continue
     print(Colors.OKGREEN + 'Files have been saved in {}'.format(abspath + '/' + 'translated_legends'))
 
 
-def translate_file(path:str, language:str):
-
-    if not codes(language):
-        print(Colors.FAIL + "Language \"" + language + "\" Unsupported language" + Colors.ENDC)
-        return
-
+def translate_file(path: str, language: str):
     abspath = os.path.abspath(path)
 
     phrase = []
@@ -94,14 +73,14 @@ def translate_file(path:str, language:str):
                 phrase.append(lines.rstrip())
         file.close()
 
-    traducao = translator.translate(phrase, dest=language)
+    translation = translator.translate(phrase, dest=language)
 
     count = 0
     with open(language + '-' + path, 'w') as save:
         with open(abspath) as file:
             for lines in file:
                 if lines[0].rstrip().isalpha():
-                    save.write(traducao[count].text + '\n')
+                    save.write(translation[count].text + '\n')
                     count += 1
                 else:
                     save.write(lines)
