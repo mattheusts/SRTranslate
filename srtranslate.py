@@ -11,7 +11,7 @@ args = parser.parse_args()
 
 if __name__ == '__main__':
 
-    if codes(args.language):
+    if not codes(args.language):
         exit(-1)
 
     if args.codes:
