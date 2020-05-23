@@ -18,7 +18,6 @@ def codes(code_lang: str):
     for code, lang in LANGUAGES.items():
         if code == code_lang:
             return True
-    print(Colors.FAIL + "Language \"" + code_lang + "\" Unsupported language" + Colors.ENDC)
     return False
 
 
