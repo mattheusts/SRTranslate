@@ -1,6 +1,6 @@
 import argparse
 import src.colors
-from src.translate import translate, translate_file, Colors, codes_viewer, codes
+from src.translate import translate, translate_one_file, Colors, codes_viewer, codes
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--dir', help='Directory where the files are located. (.srt)', type=str, required=False)
@@ -24,6 +24,6 @@ if __name__ == '__main__':
         elif args.dir:
             translate(args.dir, args.language)
         elif args.single:
-            translate_file(args.single, args.language)
+            translate_one_file(args.single, args.language)
         else:
             print(Colors.FAIL + 'No file or directory was passed' + Colors.ENDC)

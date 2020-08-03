@@ -1,5 +1,4 @@
-from googletrans import Translator
-from googletrans import LANGUAGES
+from googletrans import Translator, LANGUAGES
 from src.colors import Colors
 import os
 
@@ -21,6 +20,24 @@ def codes(code_lang: str):
     return False
 
 
+def text_grouping(file):
+    phrase = []
+    for lines in file:
+        if lines[0].rstrip().isalpha():
+            phrase.append(lines.rstrip())
+    file.close()
+    return phrase
+
+def write_file(file, save, translation):
+    count = 0
+    for lines in file:
+        if lines[0].rstrip().isalpha():
+            save.write(translation[count].text + '\n')
+            count += 1
+        else:
+            save.write(lines)
+    file.close()
+
 def translate(path: str, language: str):
     abspath = os.path.abspath(path)
 
@@ -37,23 +54,13 @@ def translate(path: str, language: str):
             filename = files
             print(Colors.WARNING + 'The {} file is being translated'.format(files) + Colors.ENDC)
             with open(abspath + '/' + files) as file:
-                for lines in file:
-                    if lines[0].rstrip().isalpha():
-                        phrase.append(lines.rstrip())
-                file.close()
+                phrase = text_grouping(file)
 
             translation = translator.translate(phrase, dest=language)
 
-            count = 0
             with open(abspath + '/' + 'translated_legends' + '/' + files, 'w') as save:
                 with open(abspath + '/' + files) as file:
-                    for lines in file:
-                        if lines[0].rstrip().isalpha():
-                            save.write(translation[count].text + '\n')
-                            count += 1
-                        else:
-                            save.write(lines)
-                    file.close()
+                    write_file(file, save, translation)
                 save.close()
             print(Colors.OKGREEN + 'The file {} was translated'.format(filename) + Colors.ENDC)
         else:
@@ -61,28 +68,18 @@ def translate(path: str, language: str):
     print(Colors.OKGREEN + 'Files have been saved in {}'.format(abspath + '/' + 'translated_legends'))
 
 
-def translate_file(path: str, language: str):
+def translate_one_file(path: str, language: str):
     abspath = os.path.abspath(path)
 
     phrase = []
     print(Colors.WARNING + 'The {} file is being translated'.format(abspath.split('/')[-1]) + Colors.ENDC)
     with open(abspath) as file:
-        for lines in file:
-            if lines[0].rstrip().isalpha():
-                phrase.append(lines.rstrip())
-        file.close()
+        phrase = text_grouping(file)
 
     translation = translator.translate(phrase, dest=language)
 
-    count = 0
     with open(language + '-' + path, 'w') as save:
         with open(abspath) as file:
-            for lines in file:
-                if lines[0].rstrip().isalpha():
-                    save.write(translation[count].text + '\n')
-                    count += 1
-                else:
-                    save.write(lines)
-            file.close()
+            write_file(file, save, translation)
         save.close()
     print(Colors.OKGREEN + 'The file {} was translated'.format(abspath.split('/')[-1]) + Colors.ENDC)
